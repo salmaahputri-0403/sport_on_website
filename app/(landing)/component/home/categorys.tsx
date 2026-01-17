@@ -1,35 +1,42 @@
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 import Image from "next/image";
+import { Category } from "@/app/types";
+import { getImageUrl } from "@/app/lib/api";
 
 const categoryList = [
     {
         name:"Running",
         imgUrl:"category-running.png",
     },
-    {
-        name:"Tennis",
-        imgUrl:"category-tennis.png",
-    },
-    {
-        name:"Basketball",
-        imgUrl:"category-basketball.png",
-    },
-    {
-        name:"Badminton",
-        imgUrl:"category-badminton.png",
-    },
-    {
-        name:"Football",
-        imgUrl:"category-football.png",
-    },
-    {
-        name:"Swimming",
-        imgUrl:"category-swimming.png",
-    },
-]
+    // {
+    //     name:"Tennis",
+    //     imgUrl:"category-tennis.png",
+    // },
+    // {
+    //     name:"Basketball",
+    //     imgUrl:"category-basketball.png",
+    // },
+    // {
+    //     name:"Badminton",
+    //     imgUrl:"category-badminton.png",
+    // },
+    // {
+    //     name:"Football",
+    //     imgUrl:"category-football.png",
+    // },
+    // {
+    //     name:"Swimming",
+    //     imgUrl:"category-swimming.png",
+    // },
+];
 
-const CategoriesSection = () => {
+
+type TCategoriesProps={
+    categories: Category[]
+}
+
+const CategoriesSection = ({categories}:TCategoriesProps) => {
     return(
         <section id="category" className="container mx-auto mt-32 pb-20">
             <div className="flex justify-between">
@@ -41,11 +48,11 @@ const CategoriesSection = () => {
             </div>
             {/* dinamik rendering */}
             <div className="grid grid-cols-6 gap-12 mt-8">
-                {categoryList.map((category, index) => (
-                    <div key={index} className="rounded-lg bg-linear-to-r from-[#F1F1F1] to-[#F7F7F7D1] w-full aspect-square flex justify-center">
+                {categories.map((category) => (
+                    <div key={category._id} className="rounded-lg bg-linear-to-r from-[#F1F1F1] to-[#F7F7F7D1] w-full aspect-square flex justify-center">
                         <div className="self-center">
                             <Image 
-                                src={`/image/category/${category.imgUrl}`} 
+                                src={getImageUrl(category.imageUrl)} 
                                 width={86} 
                                 height={86} 
                                 alt={category.name}

@@ -4,10 +4,21 @@ import { FiArrowDownRight, FiArrowRight, FiArrowUp, FiChevronDown, FiChevronUp, 
 import Button from "../ui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useCartStore } from "@/app/hooks/use-cart-store";
+import { Product } from "@/app/types";
 
-const ProductActions =() =>{
+type TProductActionsProps ={
+    stock:number,
+    product:Product;
+}
+
+const ProductActions =({product,stock}:TProductActionsProps) =>{
+    const {addItem}=useCartStore()
     const{push}=useRouter()
     const [qty,setQty]=useState(1)
+    const handleAddToCart=()=>{
+        addItem(product, qty)
+    }
 
     const checkout =() =>{
 
@@ -21,7 +32,7 @@ const ProductActions =() =>{
                 </div>
                 <div className="flex flex-col">
                     <button className="border-b border-gray-300 cursor-pointer h-1/2 aspect-square flex items-center justify-center"
-                    onClick={()=>setQty(qty+1)}
+                    onClick={()=>setQty(qty < stock ? qty+1: qty)}
                     >
                     <FiChevronUp/>
                     </button>
@@ -32,7 +43,7 @@ const ProductActions =() =>{
                     </button>
                 </div>
             </div>
-            <Button className="px-20 w-full">
+            <Button className="px-20 w-full"onClick={handleAddToCart}>
                 <FiShoppingBag size={24}/>
                 Add to Cart
             </Button>
