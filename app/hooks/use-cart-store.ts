@@ -6,8 +6,16 @@ export interface CartItem extends Product{
     qty : number;
 }
 
+export interface CustomerInfo{
+    customerName:string;
+    customerContact: number|null;
+    customerAddress:string;
+}
+
 interface CartStore{
+    customerInfo: CustomerInfo |null;
     items: CartItem[];
+    setCustomerInfo:(info:CustomerInfo)=>void;
     addItem:(product: Product, qty?:number)=>void;
     removeItem:(productId: string)=>void;
     reset:()=>void;
@@ -17,7 +25,11 @@ interface CartStore{
 export const useCartStore = create<CartStore>()(
     persist(
         (set, get)=>({
+            customerInfo:null,
             items:[],
+            setCustomerInfo:(info)=>{
+                set({customerInfo:info});
+            },
             addItem:(product,qty=1)=>{
                 const items =get().items;
                 const exstingItem = items.find((item)=>item._id=== product._id)
@@ -36,7 +48,7 @@ export const useCartStore = create<CartStore>()(
                 set({items:get().items.filter((item)=>item._id !== productId)});
             },
             reset:()=>{
-                set({items:[]});
+                set({items:[], customerInfo:null});
             }
         }),
         {

@@ -1,10 +1,9 @@
 "use client";
 import { useState, useRef } from "react";
-import { FiImage, FiTrash2, FiUploadCloud, FiCreditCard, FiCheckCircle } from "react-icons/fi";
-import Button from "./button";
+import { FiImage, FiTrash2, FiUploadCloud} from "react-icons/fi";
 
 type TFileUploadProps ={
-    onFileSelect?:(file:File|null)=>void;
+    onFileSelect?:(file: File|null)=>void;
 }
 
 const FileUpload =({onFileSelect}:TFileUploadProps)=>{
@@ -13,16 +12,18 @@ const FileUpload =({onFileSelect}:TFileUploadProps)=>{
 
     const handlFileChange =(selctedFile?: File)=>{
         if(!selctedFile)return;
+
         setFile(selctedFile);
-        onFileSelect?.(selctedFile)
-    }
+        onFileSelect?.(selctedFile);
+    };
 
     const removeFile =(e:React.MouseEvent<HTMLButtonElement>)=>{
         e.stopPropagation();
         setFile(null);
         onFileSelect?.(null);
 
-    }
+    };
+    
     return(
         <div>
             <div 
@@ -33,7 +34,7 @@ const FileUpload =({onFileSelect}:TFileUploadProps)=>{
                     handlFileChange(e.dataTransfer.files?.[0])
                 }}
                 className="bg-primary-light flex flex-col justify-center items-center w-full py-6 border border-dashed border-primary ">
-                    <input type="file" className="hidden" ref={fileInputRef} accept="image/*" onChange={(e)=>handlFileChange(e.target.files?.[0])}/>
+                    <input  name="image" type="file" className="hidden" ref={fileInputRef} accept="image/*" onChange={(e)=>handlFileChange(e.target.files?.[0])}/>
                     {
                         !file ? (
                             <div className="text-center cursor-pointer my-5">
